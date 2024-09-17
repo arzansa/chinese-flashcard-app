@@ -40,6 +40,10 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
+app.use('/api/cards', require('./controllers/cards'));
+app.use('/api/decks', require('./controllers/decks'));
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`The express app is listening on ${port}`);
