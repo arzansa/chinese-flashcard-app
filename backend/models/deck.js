@@ -17,31 +17,35 @@ const deckSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    cards: {
-      // reference card schema
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "Card",
-      required: true,
-    },
+    cards: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Card",
+        required: true,
+      },
+    ],
     rating: {
-      type: Float,
-      required: true,
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 5,
     },
     difficulty: {
       type: String,
       required: true,
     },
     likes: {
-      type: Integer,
-      required: true,
+      type: Number,
+      default: 0,
     },
     dislikes: {
-      type: Integer,
-      required: true,
+      type: Number,
+      default: 0,
     },
     isPublic: {
       type: Boolean,
       required: true,
+      default: false,
     },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     comments: [commentSchema],

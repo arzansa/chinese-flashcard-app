@@ -27,7 +27,8 @@ const cardSchema = new mongoose.Schema(
     },
     notes: {
       type: String,
-      required: true,
+      // Set required to false if notes are optional
+      required: false,
     },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     comments: [commentSchema],
@@ -35,5 +36,5 @@ const cardSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Card = mongoose.model("Card", deckSchema);
+const Card = mongoose.model("Card", cardSchema);
 module.exports = Card;
