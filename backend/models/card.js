@@ -11,36 +11,22 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const deckSchema = new mongoose.Schema(
+const cardSchema = new mongoose.Schema(
   {
-    title: {
+    english: {
       type: String,
       required: true,
     },
-    cards: {
-      // reference card schema
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "Card",
-      required: true,
-    },
-    rating: {
-      type: Float,
-      required: true,
-    },
-    difficulty: {
+    chinese: {
       type: String,
       required: true,
     },
-    likes: {
-      type: Integer,
+    pinyin: {
+      type: String,
       required: true,
     },
-    dislikes: {
-      type: Integer,
-      required: true,
-    },
-    isPublic: {
-      type: Boolean,
+    notes: {
+      type: String,
       required: true,
     },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -49,5 +35,5 @@ const deckSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Deck = mongoose.model("Deck", deckSchema);
-module.exports = Deck;
+const Card = mongoose.model("Card", deckSchema);
+module.exports = Card;
