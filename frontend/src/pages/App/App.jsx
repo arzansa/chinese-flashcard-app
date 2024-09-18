@@ -11,6 +11,7 @@ import LogInPage from '../LogInPage/LogInPage';
 
 function App() {
   const [user, setUser] = useState(getUser());
+  const [decks, setDecks] = useState([]);
 
   return (
     <main id="react-app">
@@ -19,7 +20,7 @@ function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/decks" element={<DeckListPage />} />
+            <Route path="/decks" element={<DeckListPage decks={decks}/>} />
             <Route path="/decks/new" element={<NewPostPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
