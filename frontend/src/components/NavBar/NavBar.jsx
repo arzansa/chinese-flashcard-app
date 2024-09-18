@@ -14,9 +14,9 @@ export default function NavBar({ user, setUser }) {
       &nbsp; | &nbsp;
       {user ? (
         <>
-          <Link to="/posts">Post List</Link>
+          <Link to="/decks">My Decks</Link>
           &nbsp; | &nbsp;
-          <Link to="/posts/new">New Post</Link>
+          <Link to="/posts/new">Community Decks</Link>
           &nbsp; | &nbsp;
           <Link to="" onClick={handleLogOut}>
             Log Out
