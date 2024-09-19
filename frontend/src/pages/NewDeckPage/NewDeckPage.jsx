@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewDeckPage() {
-  const [title, setTitle] = useState("");
-  const [difficulty, setDifficulty] = useState("");
+  const [title, setTitle] = useState('');
+  const [difficulty, setDifficulty] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const navigate = useNavigate();
 
@@ -17,23 +17,23 @@ export default function NewDeckPage() {
     };
 
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("/api/decks", {
-        method: "POST",
+      const token = localStorage.getItem('token'); // Ensure the user is authenticated
+      const response = await fetch('/api/decks', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
         },
         body: JSON.stringify(deckData),
       });
       if (response.ok) {
         const newDeck = await response.json();
-        navigate.push(`/decks/${newDeck._id}`);
+        navigate(`/decks/${newDeck._id}`); // Redirect using navigate
       } else {
-        console.error("Failed to create deck");
+        console.error('Failed to create deck');
       }
     } catch (err) {
-      console.error("Error:", err);
+      console.error('Error:', err);
     }
   };
 
@@ -42,8 +42,7 @@ export default function NewDeckPage() {
       <h1>Create New Deck</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          Title:
-          <br />
+          Title:<br />
           <input
             type="text"
             value={title}
@@ -53,8 +52,7 @@ export default function NewDeckPage() {
         </label>
         <br />
         <label>
-          Difficulty:
-          <br />
+          Difficulty:<br />
           <select
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
@@ -68,8 +66,7 @@ export default function NewDeckPage() {
         </label>
         <br />
         <label>
-          Public:
-          <br />
+          Public:<br />
           <input
             type="checkbox"
             checked={isPublic}

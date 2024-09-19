@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 export default function EditDeckPage() {
   const { id } = useParams(); // Deck ID from URL
   const [deck, setDeck] = useState(null);
-  const [title, setTitle] = useState("");
-  const [difficulty, setDifficulty] = useState("");
+  const [title, setTitle] = useState('');
+  const [difficulty, setDifficulty] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchDeck() {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem('token');
         const response = await fetch(`/api/decks/${id}`, {
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: 'Bearer ' + token,
           },
         });
         if (response.ok) {
@@ -25,10 +25,10 @@ export default function EditDeckPage() {
           setDifficulty(deckData.difficulty);
           setIsPublic(deckData.isPublic);
         } else {
-          console.error("Failed to fetch deck");
+          console.error('Failed to fetch deck');
         }
       } catch (err) {
-        console.error("Error:", err);
+        console.error('Error:', err);
       }
     }
     fetchDeck();
@@ -44,22 +44,22 @@ export default function EditDeckPage() {
     };
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       const response = await fetch(`/api/decks/${id}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
         },
         body: JSON.stringify(updatedDeck),
       });
       if (response.ok) {
-        navigate.push(`/decks/${id}`);
+        navigate(`/decks/${id}`); // Redirect using navigate
       } else {
-        console.error("Failed to update deck");
+        console.error('Failed to update deck');
       }
     } catch (err) {
-      console.error("Error:", err);
+      console.error('Error:', err);
     }
   };
 
@@ -72,8 +72,7 @@ export default function EditDeckPage() {
       <h1>Edit Deck</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          Title:
-          <br />
+          Title:<br />
           <input
             type="text"
             value={title}
@@ -83,8 +82,7 @@ export default function EditDeckPage() {
         </label>
         <br />
         <label>
-          Difficulty:
-          <br />
+          Difficulty:<br />
           <select
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
@@ -98,8 +96,7 @@ export default function EditDeckPage() {
         </label>
         <br />
         <label>
-          Public:
-          <br />
+          Public:<br />
           <input
             type="checkbox"
             checked={isPublic}

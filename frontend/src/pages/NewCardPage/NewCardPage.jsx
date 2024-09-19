@@ -31,7 +31,7 @@ export default function NewCardPage() {
         body: JSON.stringify(cardData),
       });
       if (response.ok) {
-        navigate.push(`/decks/${id}`);
+        navigate(`/decks/${id}`); // Redirect using navigate
       } else {
         console.error('Failed to add card to deck');
       }
