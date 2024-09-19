@@ -6,12 +6,15 @@ const ensureLoggedIn = require("../middleware/ensureLoggedIn");
 
 // ========== Public Routes ===========
 
-// GET /api/decks - Get all decks for the logged-in user
-router.get("/", async (req, res) => {
+// GET /api/decks - Get all decks
+router.get('/', async (req, res) => {
   try {
-    const decks = await Deck.find({ creator: req.user._id })
-      .populate("creator", "name")
-      .sort({ createdAt: -1 });
+    const decks = await Deck.find()
+      .populate({
+        path: 'cards',
+        model: 'Card',
+      })
+      .populate('creator', 'name');
     res.status(200).json(decks);
   } catch (error) {
     res.status(500).json({ message: error.message });
