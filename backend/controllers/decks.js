@@ -1,20 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const Deck = require("../models/deck");
+const Card = require("../models/card"); // Add this line
 const verifyToken = require("../middleware/checkToken");
 const ensureLoggedIn = require("../middleware/ensureLoggedIn");
 
 // ========== Public Routes ===========
 
 // GET /api/decks - Get all decks
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const decks = await Deck.find()
       .populate({
-        path: 'cards',
-        model: 'Card',
+        path: "cards",
+        model: "Card",
       })
-      .populate('creator', 'name');
+      .populate("creator", "name");
     res.status(200).json(decks);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -22,31 +23,32 @@ router.get('/', async (req, res) => {
 });
 
 // GET /api/decks/:id - Get a specific deck
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const deck = await Deck.findById(req.params.id)
       .populate({
-        path: 'cards',
-        model: 'Card',
+        path: "cards",
+        model: "Card",
       })
-      .populate('creator', 'name');
-    if (!deck) return res.status(404).json({ message: 'Deck not found' });
+      .populate("creator", "name");
+    if (!deck) return res.status(404).json({ message: "Deck not found" });
 
     // If deck is public or user is the creator
     if (deck.isPublic || (req.user && deck.creator.equals(req.user._id))) {
       res.status(200).json(deck);
     } else {
-      res.status(403).json({ message: 'Unauthorized' });
+      res.status(403).json({ message: "Unauthorized" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-
 // POST /api/decks/:id/cards - Add a card to a deck
 router.post("/:id/cards", async (req, res) => {
   try {
+    console.log("Request payload:", req.body); // Log the request payload
+
     const deck = await Deck.findById(req.params.id);
     if (!deck) return res.status(404).json({ message: "Deck not found" });
 
@@ -68,6 +70,7 @@ router.post("/:id/cards", async (req, res) => {
 
     res.status(201).json(newCard);
   } catch (error) {
+    console.error("Error adding card to deck:", error); // Log the error
     res.status(400).json({ message: error.message });
   }
 });
