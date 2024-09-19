@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function NewDeckPage() {
   const [title, setTitle] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [isPublic, setIsPublic] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ export default function NewDeckPage() {
       });
       if (response.ok) {
         const newDeck = await response.json();
-        history.push(`/decks/${newDeck._id}`);
+        navigate.push(`/decks/${newDeck._id}`);
       } else {
         console.error("Failed to create deck");
       }

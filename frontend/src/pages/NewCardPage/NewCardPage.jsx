@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function NewCardPage() {
   const { id } = useParams(); // Deck ID from URL
@@ -7,7 +7,7 @@ export default function NewCardPage() {
   const [chinese, setChinese] = useState('');
   const [pinyin, setPinyin] = useState('');
   const [notes, setNotes] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ export default function NewCardPage() {
         body: JSON.stringify(cardData),
       });
       if (response.ok) {
-        history.push(`/decks/${id}`);
+        navigate.push(`/decks/${id}`);
       } else {
         console.error('Failed to add card to deck');
       }

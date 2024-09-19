@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 export default function EditDeckPage() {
   const { id } = useParams(); // Deck ID from URL
@@ -7,7 +7,7 @@ export default function EditDeckPage() {
   const [title, setTitle] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [isPublic, setIsPublic] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchDeck() {
@@ -54,7 +54,7 @@ export default function EditDeckPage() {
         body: JSON.stringify(updatedDeck),
       });
       if (response.ok) {
-        history.push(`/decks/${id}`);
+        navigate.push(`/decks/${id}`);
       } else {
         console.error("Failed to update deck");
       }
