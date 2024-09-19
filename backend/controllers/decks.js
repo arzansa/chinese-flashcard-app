@@ -19,24 +19,27 @@ router.get("/", async (req, res) => {
 });
 
 // GET /api/decks/:id - Get a specific deck
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const deck = await Deck.findById(req.params.id)
-      .populate("cards")
-      .populate("creator", "name")
-      .populate("comments.author", "name");
-    if (!deck) return res.status(404).json({ message: "Deck not found" });
+      .populate({
+        path: 'cards',
+        model: 'Card',
+      })
+      .populate('creator', 'name');
+    if (!deck) return res.status(404).json({ message: 'Deck not found' });
 
     // If deck is public or user is the creator
     if (deck.isPublic || (req.user && deck.creator.equals(req.user._id))) {
       res.status(200).json(deck);
     } else {
-      res.status(403).json({ message: "Unauthorized" });
+      res.status(403).json({ message: 'Unauthorized' });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
 
 // POST /api/decks/:id/cards - Add a card to a deck
 router.post("/:id/cards", async (req, res) => {
