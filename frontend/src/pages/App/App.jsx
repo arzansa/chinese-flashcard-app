@@ -12,7 +12,8 @@ import EditDeckPage from "../EditDeckPage/EditDeckPage";
 import NewCardPage from "../NewCardPage/NewCardPage";
 import DeckDetailPage from "../DeckDetailPage/DeckDetailPage";
 import StudyDeckPage from "../StudyDeckPage/StudyDeckPage";
-import EditCardPage from "../EditCardPage/EditCardPage"; // Import EditCardPage
+import EditCardPage from "../EditCardPage/EditCardPage";
+import CommunityDecksPage from "../CommunityDecksPage/CommunityDecksPage"; // Import CommunityDecksPage
 
 function App() {
   const [user, setUser] = useState(getUser());
@@ -64,6 +65,10 @@ function App() {
               element={<EditCardPage />}
             />
             <Route path="/decks/:id/study" element={<StudyDeckPage />} />
+            <Route
+              path="/community-decks"
+              element={<CommunityDecksPage decks={decks} />}
+            />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         ) : (

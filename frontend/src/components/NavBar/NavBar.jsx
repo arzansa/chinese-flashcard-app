@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import * as authService from '../../services/authService';
-import './NavBar.css';
+import { Link } from "react-router-dom";
+import * as authService from "../../services/authService";
+import "./NavBar.css";
 
 export default function NavBar({ user, setUser }) {
   function handleLogOut() {
@@ -16,7 +16,7 @@ export default function NavBar({ user, setUser }) {
         <>
           <Link to="/decks">My Decks</Link>
           &nbsp; | &nbsp;
-          <Link to="/posts/new">Community Decks</Link>
+          <Link to="/community-decks">Community Decks</Link>
           &nbsp; | &nbsp;
           <Link to="" onClick={handleLogOut}>
             Log Out
