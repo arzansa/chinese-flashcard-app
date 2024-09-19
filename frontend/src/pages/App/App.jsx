@@ -13,7 +13,8 @@ import NewCardPage from "../NewCardPage/NewCardPage";
 import DeckDetailPage from "../DeckDetailPage/DeckDetailPage";
 import StudyDeckPage from "../StudyDeckPage/StudyDeckPage";
 import EditCardPage from "../EditCardPage/EditCardPage";
-import CommunityDecksPage from "../CommunityDecksPage/CommunityDecksPage"; // Import CommunityDecksPage
+import CommunityDecksPage from "../CommunityDecksPage/CommunityDecksPage";
+import CommunityDeckDetailPage from "../CommunityDeckDetailPage/CommunityDeckDetailPage"; // Import CommunityDeckDetailPage
 
 function App() {
   const [user, setUser] = useState(getUser());
@@ -45,6 +46,33 @@ function App() {
     }
   }
 
+  async function addDeckToUser(deck) {
+    try {
+      const token = localStorage.getItem("token");
+      console.log("Cloning deck with ID:", deck._id); // Log the deck ID
+      const response = await fetch(`/api/decks/clone/${deck._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (response.ok) {
+        const newDeck = await response.json();
+        setDecks([...decks, newDeck]);
+        console.log("Deck cloned successfully:", newDeck); // Log the cloned deck
+      } else {
+        console.error(
+          "Failed to clone deck",
+          response.status,
+          response.statusText
+        );
+      }
+    } catch (err) {
+      console.error("Error cloning deck:", err);
+    }
+  }
+
   return (
     <main id="react-app">
       <NavBar user={user} setUser={setUser} />
@@ -57,7 +85,12 @@ function App() {
               element={<DeckListPage decks={decks} user={user} />}
             />
             <Route path="/decks/new" element={<NewDeckPage />} />
-            <Route path="/decks/:id" element={<DeckDetailPage />} />
+            <Route
+              path="/decks/:id"
+              element={
+                <DeckDetailPage decks={decks} user={user} setDecks={setDecks} />
+              }
+            />
             <Route path="/decks/:id/edit" element={<EditDeckPage />} />
             <Route path="/decks/:id/cards/new" element={<NewCardPage />} />
             <Route
@@ -67,7 +100,22 @@ function App() {
             <Route path="/decks/:id/study" element={<StudyDeckPage />} />
             <Route
               path="/community-decks"
-              element={<CommunityDecksPage decks={decks} />}
+              element={
+                <CommunityDecksPage
+                  decks={decks}
+                  user={user}
+                  addDeckToUser={addDeckToUser}
+                />
+              }
+            />
+            <Route
+              path="/community-decks/:id"
+              element={
+                <CommunityDeckDetailPage
+                  decks={decks}
+                  addDeckToUser={addDeckToUser}
+                />
+              }
             />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

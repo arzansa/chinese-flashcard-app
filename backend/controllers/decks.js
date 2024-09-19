@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Deck = require("../models/deck");
-const Card = require("../models/card"); // Add this line
+const Card = require("../models/card");
 const verifyToken = require("../middleware/checkToken");
 const ensureLoggedIn = require("../middleware/ensureLoggedIn");
 
@@ -18,6 +18,29 @@ router.get("/", async (req, res) => {
       .populate("creator", "name");
     res.status(200).json(decks);
   } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Clone a deck
+router.post("/clone/:id", verifyToken, ensureLoggedIn, async (req, res) => {
+  try {
+    const deck = await Deck.findById(req.params.id);
+    if (!deck) return res.status(404).json({ message: "Deck not found" });
+
+    const clonedDeck = new Deck({
+      title: deck.title,
+      text: deck.text,
+      creator: req.user._id,
+      cards: deck.cards,
+      difficulty: deck.difficulty, // Ensure difficulty is copied
+      isPublic: false, // Cloned decks should be private by default
+    });
+
+    await clonedDeck.save();
+    res.status(201).json(clonedDeck);
+  } catch (error) {
+    console.error("Error cloning deck:", error); // Log the error
     res.status(500).json({ message: error.message });
   }
 });
@@ -45,7 +68,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST /api/decks/:id/cards - Add a card to a deck
-router.post("/:id/cards", async (req, res) => {
+router.post("/:id/cards", verifyToken, ensureLoggedIn, async (req, res) => {
   try {
     console.log("Request payload:", req.body); // Log the request payload
 
@@ -72,6 +95,31 @@ router.post("/:id/cards", async (req, res) => {
   } catch (error) {
     console.error("Error adding card to deck:", error); // Log the error
     res.status(400).json({ message: error.message });
+  }
+});
+
+// DELETE /api/decks/:id/cards/:cardId - Remove a card from a deck
+router.delete("/:id/cards/:cardId", verifyToken, ensureLoggedIn, async (req, res) => {
+  try {
+    const deck = await Deck.findById(req.params.id);
+    if (!deck) return res.status(404).json({ message: "Deck not found" });
+
+    // Check if the logged-in user is the creator
+    if (!deck.creator.equals(req.user._id)) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    // Remove the card from the deck
+    deck.cards.pull(req.params.cardId);
+    await deck.save();
+
+    // Delete the card
+    await Card.findByIdAndDelete(req.params.cardId);
+
+    res.status(200).json({ message: "Card removed from deck" });
+  } catch (error) {
+    console.error("Error removing card from deck:", error); // Log the error
+    res.status(500).json({ message: error.message });
   }
 });
 

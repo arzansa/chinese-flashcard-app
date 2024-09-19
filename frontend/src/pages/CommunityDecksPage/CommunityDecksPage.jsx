@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function CommunityDecksPage({ decks }) {
+export default function CommunityDecksPage({ decks, user, addDeckToUser }) {
   const publicDecks = decks.filter((deck) => deck.isPublic);
 
   return (
@@ -17,12 +17,17 @@ export default function CommunityDecksPage({ decks }) {
               </p>
             </header>
             <p>{deck.text}</p>
-            <Link to={`/decks/${deck._id}`}>
+            <Link to={`/community-decks/${deck._id}`}>
               <button>View Deck</button>
             </Link>
-            <Link to={`/decks/${deck._id}/study`}>
-              <button>Study Deck</button>
-            </Link>
+            <button
+              onClick={() => {
+                console.log("Adding deck to user:", deck); // Log the deck being added
+                addDeckToUser(deck);
+              }}
+            >
+              Add to My Decks
+            </button>
           </article>
         ))
       ) : (

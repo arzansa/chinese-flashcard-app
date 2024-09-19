@@ -1,89 +1,96 @@
-import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 
-const DeckDetailPage = () => {
-  const { id } = useParams(); // Deck ID from URL
-  const [deck, setDeck] = useState(null);
+export default function DeckDetailPage({ decks = [], user }) {
+  const { id } = useParams();
+  const deck = decks.find((deck) => deck._id === id);
 
-  useEffect(() => {
-    async function fetchDeck() {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch(`/api/decks/${id}`, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        if (response.ok) {
-          const deckData = await response.json();
-          setDeck(deckData);
-        } else {
-          console.error("Failed to fetch deck");
-        }
-      } catch (err) {
-        console.error("Error:", err);
-      }
-    }
-    fetchDeck();
-  }, [id]);
+  if (!deck) return <p>Deck not found.</p>;
 
-  async function handleDeleteCard(cardId) {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`/api/cards/${cardId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-      if (response.ok) {
-        setDeck((prevDeck) => ({
-          ...prevDeck,
-          cards: prevDeck.cards.filter((card) => card._id !== cardId),
-        }));
-      } else {
-        console.error("Failed to delete card");
-      }
-    } catch (err) {
-      console.error("Error:", err);
-    }
-  }
-
-  if (!deck) {
-    return <p>Loading deck...</p>;
-  }
+  const isCreator = user && deck.creator._id === user._id;
 
   return (
     <main>
       <h1>{deck.title}</h1>
-      <p>Difficulty: {deck.difficulty}</p>
-      <p>Public: {deck.isPublic ? "Yes" : "No"}</p>
-      <p>Created by: {deck.creator?.name || "Unknown"}</p>
-      <p>Created on: {new Date(deck.createdAt).toLocaleDateString()}</p>
-      <Link to={`/decks/${id}/cards/new`}>
-        <button>Add Card</button>
-      </Link>
-      <h2>Cards</h2>
-      {deck.cards.length > 0 ? (
-        deck.cards.map((card) => (
-          <article key={card._id}>
-            <p>English: {card.english}</p>
-            <p>Chinese: {card.chinese}</p>
-            <p>Pinyin: {card.pinyin}</p>
-            <p>Notes: {card.notes}</p>
-            <Link to={`/decks/${id}/cards/${card._id}/edit`}>
-              <button>Edit Card</button>
-            </Link>
-            <button onClick={() => handleDeleteCard(card._id)}>
-              Delete Card
-            </button>
-          </article>
-        ))
-      ) : (
-        <p>No cards available.</p>
+      <p>{deck.text}</p>
+      <p>
+        {deck.creator?.name || "Unknown"} posted on{" "}
+        {new Date(deck.createdAt).toLocaleDateString()}
+      </p>
+      {isCreator && (
+        <>
+          <Link to={`/decks/${deck._id}/edit`}>
+            <button>Edit Deck</button>
+          </Link>
+          <Link to={`/decks/${deck._id}/cards/new`}>
+            <button>Add Card</button>
+          </Link>
+        </>
       )}
+      <section>
+        <h2>Cards</h2>
+        {deck.cards && deck.cards.length > 0 ? (
+          deck.cards.map((card) => (
+            <article key={card._id}>
+              <p>
+                <strong>English:</strong> {card.english}
+              </p>
+              <p>
+                <strong>Chinese:</strong> {card.chinese}
+              </p>
+              <p>
+                <strong>Pinyin:</strong> {card.pinyin}
+              </p>
+              {card.notes && (
+                <p>
+                  <strong>Notes:</strong> {card.notes}
+                </p>
+              )}
+              {isCreator && (
+                <>
+                  <Link to={`/decks/${deck._id}/cards/${card._id}/edit`}>
+                    <button>Edit</button>
+                  </Link>
+                  <button onClick={() => handleRemoveCard(deck._id, card._id)}>
+                    Remove
+                  </button>
+                </>
+              )}
+            </article>
+          ))
+        ) : (
+          <p>No cards available in this deck.</p>
+        )}
+      </section>
     </main>
   );
-};
 
-export default DeckDetailPage;
+  async function handleRemoveCard(deckId, cardId) {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/decks/${deckId}/cards/${cardId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (response.ok) {
+        // Remove the card from the deck in the state
+        const updatedDecks = decks.map((d) => {
+          if (d._id === deckId) {
+            return {
+              ...d,
+              cards: d.cards.filter((c) => c._id !== cardId),
+            };
+          }
+          return d;
+        });
+        setDecks(updatedDecks);
+      } else {
+        console.error("Failed to remove card");
+      }
+    } catch (err) {
+      console.error("Error removing card:", err);
+    }
+  }
+}

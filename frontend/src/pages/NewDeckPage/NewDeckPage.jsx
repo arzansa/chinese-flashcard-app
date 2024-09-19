@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function NewDeckPage() {
   const [title, setTitle] = useState("");
+  const [text, setText] = useState(""); // Add state for description
   const [difficulty, setDifficulty] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function NewDeckPage() {
 
     const deckData = {
       title,
+      text, // Include description in the deck data
       difficulty,
       isPublic,
     };
@@ -50,6 +52,16 @@ export default function NewDeckPage() {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
+        </label>
+        <br />
+        <label>
+          Description:
+          <br />
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            required
+          ></textarea>
         </label>
         <br />
         <label>
