@@ -8,7 +8,10 @@ import DeckListPage from "../DeckListPage/DeckListPage";
 import NewPostPage from "../NewPostPage/NewPostPage";
 import SignUpPage from "../SignUpPage/SignUpPage";
 import LogInPage from "../LogInPage/LogInPage";
-
+import DeckListPage from "./DeckListPage";
+import NewDeckPage from "./NewDeckPage";
+import EditDeckPage from "./EditDeckPage";
+import NewCardPage from "./NewCardPage";
 function App() {
   const [user, setUser] = useState(getUser());
   const [decks, setDecks] = useState([]);
@@ -20,8 +23,12 @@ function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/decks" element={<DeckListPage decks={decks} />} />
-            <Route path="/decks/new" element={<NewPostPage />} />
+            {/* <Route path="/decks" element={<DeckListPage decks={decks} />} />
+            <Route path="/decks/new" element={<NewPostPage />} /> */}
+            <Route exact path="/decks" component={DeckListPage} />
+            <Route exact path="/decks/new" component={NewDeckPage} />
+            <Route exact path="/decks/:id/edit" component={EditDeckPage} />
+            <Route exact path="/decks/:id/cards/new" component={NewCardPage} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         ) : (
