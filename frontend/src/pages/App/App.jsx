@@ -5,13 +5,12 @@ import "./App.css";
 import NavBar from "../../components/NavBar/NavBar";
 import HomePage from "../HomePage/HomePage";
 import DeckListPage from "../DeckListPage/DeckListPage";
-import NewPostPage from "../NewPostPage/NewPostPage";
 import SignUpPage from "../SignUpPage/SignUpPage";
 import LogInPage from "../LogInPage/LogInPage";
-import DeckListPage from "./DeckListPage";
-import NewDeckPage from "./NewDeckPage";
-import EditDeckPage from "./EditDeckPage";
-import NewCardPage from "./NewCardPage";
+import DeckListPage from "../DeckListPage/DeckListPage";
+import NewDeckPage from "../NewDeckPage/NewDeckPage";
+import EditDeckPage from "../EditDeckPage/EditDeckPage";
+import NewCardPage from "../NewCardPage/NewCardPage";
 function App() {
   const [user, setUser] = useState(getUser());
   const [decks, setDecks] = useState([]);
