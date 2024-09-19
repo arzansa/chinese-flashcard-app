@@ -38,6 +38,35 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// POST /api/decks/:id/cards - Add a card to a deck
+router.post('/:id/cards', async (req, res) => {
+  try {
+    const deck = await Deck.findById(req.params.id);
+    if (!deck) return res.status(404).json({ message: 'Deck not found' });
+
+    // Check if the logged-in user is the creator
+    if (!deck.creator.equals(req.user._id)) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
+
+    // Create the new card
+    const cardData = {
+      ...req.body,
+      creator: req.user._id,
+    };
+    const newCard = await Card.create(cardData);
+
+    // Add the card to the deck
+    deck.cards.push(newCard._id);
+    await deck.save();
+
+    res.status(201).json(newCard);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
 // ========= Protected Routes =========
 
 // Middleware to check token and ensure user is logged in
