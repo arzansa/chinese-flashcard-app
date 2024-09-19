@@ -35,15 +35,13 @@ const ensureLoggedIn = require("./middleware/ensureLoggedIn");
 // app.use('/api/posts', ensureLoggedIn, require('./routes/posts'));
 
 app.use("/api/decks", require("./controllers/decks"));
+app.use("/api/cards", require("./controllers/cards")); // Move this line up
 
 // Use a "catch-all" route to deliver the frontend's production index.html
 app.get("*", function (req, res) {
   console.log(__dirname);
   res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });
-
-app.use("/api/cards", require("./controllers/cards"));
-app.use("/api/decks", require("./controllers/decks"));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

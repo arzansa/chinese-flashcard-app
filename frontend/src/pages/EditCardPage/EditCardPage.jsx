@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 
 export default function EditCardPage() {
   const { id, cardId } = useParams(); // Deck ID and Card ID from URL
+  console.log("Deck ID:", id); // Log the deck ID
+  console.log("Card ID:", cardId); // Log the card ID
+
   const [card, setCard] = useState(null);
   const [english, setEnglish] = useState("");
   const [chinese, setChinese] = useState("");
@@ -23,14 +26,21 @@ export default function EditCardPage() {
             Expires: "0", // Disable caching
           },
         });
+        console.log("Response status:", response.status); // Log the response status
+        const responseText = await response.text();
+        console.log("Response text:", responseText); // Log the response text
         if (response.ok) {
-          const cardData = await response.json();
-          console.log("Card data fetched:", cardData); // Log the fetched card data
-          setCard(cardData);
-          setEnglish(cardData.english);
-          setChinese(cardData.chinese);
-          setPinyin(cardData.pinyin);
-          setNotes(cardData.notes);
+          try {
+            const cardData = JSON.parse(responseText);
+            console.log("Card data fetched:", cardData); // Log the fetched card data
+            setCard(cardData);
+            setEnglish(cardData.english);
+            setChinese(cardData.chinese);
+            setPinyin(cardData.pinyin);
+            setNotes(cardData.notes);
+          } catch (parseError) {
+            console.error("Error parsing JSON:", parseError);
+          }
         } else {
           console.error(
             "Failed to fetch card",

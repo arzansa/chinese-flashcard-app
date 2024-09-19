@@ -19,10 +19,10 @@ export default function DeckListPage({ decks, user }) {
             </header>
             <p>{deck.text}</p>
             <Link to={`/decks/${deck._id}`}>
-              <button>View Deck</button>
+              <button>View/Edit Deck</button>
             </Link>
-            <Link to={`/decks/${deck._id}/edit`}>
-              <button>Edit Deck</button>
+            <Link to={`/decks/${deck._id}/study`}>
+              <button>Study Deck</button>
             </Link>
           </article>
         ))

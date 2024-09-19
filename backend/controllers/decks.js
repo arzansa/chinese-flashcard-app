@@ -125,9 +125,10 @@ router.delete("/:id", async (req, res) => {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
-    await deck.remove();
+    await Deck.findByIdAndDelete(req.params.id); // Use findByIdAndDelete
     res.status(200).json({ message: "Deck deleted" });
   } catch (error) {
+    console.error("Error deleting deck:", error); // Log the error
     res.status(500).json({ message: error.message });
   }
 });

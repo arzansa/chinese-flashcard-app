@@ -74,16 +74,23 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const card = await Card.findById(req.params.id);
-    if (!card) return res.status(404).json({ message: "Card not found" });
+    if (!card) {
+      console.error(`Card with ID ${req.params.id} not found`);
+      return res.status(404).json({ message: "Card not found" });
+    }
 
     // Check if the logged-in user is the creator
     if (!card.creator.equals(req.user._id)) {
+      console.error(
+        `User ${req.user._id} is not authorized to delete card ${req.params.id}`
+      );
       return res.status(403).json({ message: "Unauthorized" });
     }
 
-    await card.remove();
+    await Card.deleteOne({ _id: req.params.id });
     res.status(200).json({ message: "Card deleted" });
   } catch (error) {
+    console.error(`Error deleting card with ID ${req.params.id}:`, error); // Log the error
     res.status(500).json({ message: error.message });
   }
 });

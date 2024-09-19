@@ -12,6 +12,7 @@ import EditDeckPage from "../EditDeckPage/EditDeckPage";
 import NewCardPage from "../NewCardPage/NewCardPage";
 import DeckDetailPage from "../DeckDetailPage/DeckDetailPage";
 import StudyDeckPage from "../StudyDeckPage/StudyDeckPage";
+import EditCardPage from "../EditCardPage/EditCardPage"; // Import EditCardPage
 
 function App() {
   const [user, setUser] = useState(getUser());
@@ -58,6 +59,10 @@ function App() {
             <Route path="/decks/:id" element={<DeckDetailPage />} />
             <Route path="/decks/:id/edit" element={<EditDeckPage />} />
             <Route path="/decks/:id/cards/new" element={<NewCardPage />} />
+            <Route
+              path="/decks/:id/cards/:cardId/edit"
+              element={<EditCardPage />}
+            />
             <Route path="/decks/:id/study" element={<StudyDeckPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
