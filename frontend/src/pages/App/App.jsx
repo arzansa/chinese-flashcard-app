@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { getUser } from "../../services/authService";
 import "./App.css";
@@ -15,6 +15,32 @@ function App() {
   const [user, setUser] = useState(getUser());
   const [decks, setDecks] = useState([]);
 
+  useEffect(() => {
+    if (user) {
+      fetchDecks();
+    }
+  }, [user]);
+
+  async function fetchDecks() {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("/api/decks", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setDecks(data);
+      } else {
+        console.error("Failed to fetch decks");
+      }
+    } catch (err) {
+      console.error("Error fetching decks:", err);
+    }
+  }
+
   return (
     <main id="react-app">
       <NavBar user={user} setUser={setUser} />
@@ -22,8 +48,12 @@ function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/decks" element={<DeckListPage decks={decks} />} />
+            <Route
+              path="/decks"
+              element={<DeckListPage decks={decks} user={user} />}
+            />
             <Route path="/decks/new" element={<NewDeckPage />} />
+            <Route path="/decks/:id" element={<DeckDetailPage />} />
             <Route path="/decks/:id/edit" element={<EditDeckPage />} />
             <Route path="/decks/:id/cards/new" element={<NewCardPage />} />
             <Route path="*" element={<Navigate to="/" />} />
