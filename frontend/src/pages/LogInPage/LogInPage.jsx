@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import * as authService from '../../services/authService';
+import { useState } from "react";
+import * as authService from "../../services/authService";
 
 export default function LogInPage({ setUser }) {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(evt) {
     evt.preventDefault();
@@ -15,13 +15,13 @@ export default function LogInPage({ setUser }) {
       setUser(user);
     } catch (err) {
       // An error occurred
-      setErrorMsg('Log In Failed - Try Again');
+      setErrorMsg("Log In Failed - Try Again");
     }
   }
 
   function handleChange(evt) {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
-    setErrorMsg('');
+    setErrorMsg("");
   }
 
   return (

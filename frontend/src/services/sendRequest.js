@@ -1,11 +1,11 @@
-import { getToken } from './authService';
+import { getToken } from "./authService";
 
-export default async function sendRequest(url, method = 'GET', payload = null) {
+export default async function sendRequest(url, method = "GET", payload = null) {
   // Fetch accepts an options object as the 2nd argument
   // used to include a data payload, set headers, specifiy the method, etc.
   const options = { method };
   if (payload) {
-    options.headers = { 'Content-Type': 'application/json' };
+    options.headers = { "Content-Type": "application/json" };
     options.body = JSON.stringify(payload);
   }
   const token = getToken();
