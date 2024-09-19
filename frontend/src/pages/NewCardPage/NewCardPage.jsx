@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function NewCardPage() {
   const { id } = useParams(); // Deck ID from URL
-  const [english, setEnglish] = useState('');
-  const [chinese, setChinese] = useState('');
-  const [pinyin, setPinyin] = useState('');
-  const [notes, setNotes] = useState('');
+  const [english, setEnglish] = useState("");
+  const [chinese, setChinese] = useState("");
+  const [pinyin, setPinyin] = useState("");
+  const [notes, setNotes] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,32 +20,32 @@ export default function NewCardPage() {
     };
 
     try {
-      const token = localStorage.getItem('token');
-      // Add card to the deck via the deck's API endpoint
+      const token = localStorage.getItem("token");
       const response = await fetch(`/api/decks/${id}/cards`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
         body: JSON.stringify(cardData),
       });
       if (response.ok) {
-        navigate(`/decks/${id}`); // Redirect using navigate
+        navigate(`/decks/${id}`);
       } else {
-        console.error('Failed to add card to deck');
+        console.error("Failed to add card to deck");
       }
     } catch (err) {
-      console.error('Error:', err);
+      console.error("Error:", err);
     }
   };
 
   return (
     <main>
-      <h1>Add New Card</h1>
+      <h1>Add New Card to Deck</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          English:<br />
+          English:
+          <br />
           <input
             type="text"
             value={english}
@@ -55,7 +55,8 @@ export default function NewCardPage() {
         </label>
         <br />
         <label>
-          Chinese:<br />
+          Chinese:
+          <br />
           <input
             type="text"
             value={chinese}
@@ -65,7 +66,8 @@ export default function NewCardPage() {
         </label>
         <br />
         <label>
-          Pinyin:<br />
+          Pinyin:
+          <br />
           <input
             type="text"
             value={pinyin}
@@ -75,7 +77,8 @@ export default function NewCardPage() {
         </label>
         <br />
         <label>
-          Notes:<br />
+          Notes:
+          <br />
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}

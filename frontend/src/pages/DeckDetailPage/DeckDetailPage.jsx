@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 
 export default function DeckDetailPage() {
   const { id } = useParams();
@@ -8,21 +8,21 @@ export default function DeckDetailPage() {
   useEffect(() => {
     async function fetchDeck() {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         const response = await fetch(`/api/decks/${id}`, {
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
         });
         if (response.ok) {
           const data = await response.json();
           setDeck(data);
         } else {
-          console.error('Failed to fetch deck');
+          console.error("Failed to fetch deck");
         }
       } catch (err) {
-        console.error('Error:', err);
+        console.error("Error:", err);
       }
     }
     fetchDeck();

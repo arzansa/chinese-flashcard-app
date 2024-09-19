@@ -10,6 +10,8 @@ import DeckListPage from "../DeckListPage/DeckListPage";
 import NewDeckPage from "../NewDeckPage/NewDeckPage";
 import EditDeckPage from "../EditDeckPage/EditDeckPage";
 import NewCardPage from "../NewCardPage/NewCardPage";
+import DeckDetailPage from "../DeckDetailPage/DeckDetailPage";
+import StudyDeckPage from "../StudyDeckPage/StudyDeckPage";
 
 function App() {
   const [user, setUser] = useState(getUser());
@@ -56,6 +58,7 @@ function App() {
             <Route path="/decks/:id" element={<DeckDetailPage />} />
             <Route path="/decks/:id/edit" element={<EditDeckPage />} />
             <Route path="/decks/:id/cards/new" element={<NewCardPage />} />
+            <Route path="/decks/:id/study" element={<StudyDeckPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         ) : (

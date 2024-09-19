@@ -6,10 +6,10 @@ const ensureLoggedIn = require("../middleware/ensureLoggedIn");
 
 // ========== Public Routes ===========
 
-// GET /api/decks - Get all public decks
+// GET /api/decks - Get all decks for the logged-in user
 router.get("/", async (req, res) => {
   try {
-    const decks = await Deck.find({ isPublic: true })
+    const decks = await Deck.find({ creator: req.user._id })
       .populate("creator", "name")
       .sort({ createdAt: -1 });
     res.status(200).json(decks);
@@ -39,14 +39,14 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST /api/decks/:id/cards - Add a card to a deck
-router.post('/:id/cards', async (req, res) => {
+router.post("/:id/cards", async (req, res) => {
   try {
     const deck = await Deck.findById(req.params.id);
-    if (!deck) return res.status(404).json({ message: 'Deck not found' });
+    if (!deck) return res.status(404).json({ message: "Deck not found" });
 
     // Check if the logged-in user is the creator
     if (!deck.creator.equals(req.user._id)) {
-      return res.status(403).json({ message: 'Unauthorized' });
+      return res.status(403).json({ message: "Unauthorized" });
     }
 
     // Create the new card
@@ -65,7 +65,6 @@ router.post('/:id/cards', async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-
 
 // ========= Protected Routes =========
 
