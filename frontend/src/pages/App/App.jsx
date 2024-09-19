@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { getUser } from '../../services/authService';
-import './App.css';
-import NavBar from '../../components/NavBar/NavBar';
-import HomePage from '../HomePage/HomePage';
-import DeckListPage from '../DeckListPage/DeckListPage';
-import NewPostPage from '../NewPostPage/NewPostPage';
-import SignUpPage from '../SignUpPage/SignUpPage';
-import LogInPage from '../LogInPage/LogInPage';
+import { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { getUser } from "../../services/authService";
+import "./App.css";
+import NavBar from "../../components/NavBar/NavBar";
+import HomePage from "../HomePage/HomePage";
+import DeckListPage from "../DeckListPage/DeckListPage";
+import NewPostPage from "../NewPostPage/NewPostPage";
+import SignUpPage from "../SignUpPage/SignUpPage";
+import LogInPage from "../LogInPage/LogInPage";
 
 function App() {
   const [user, setUser] = useState(getUser());
@@ -20,7 +20,7 @@ function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/decks" element={<DeckListPage decks={decks}/>} />
+            <Route path="/decks" element={<DeckListPage decks={decks} />} />
             <Route path="/decks/new" element={<NewPostPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

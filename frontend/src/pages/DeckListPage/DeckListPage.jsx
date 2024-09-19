@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function DeckListPage(props) {
   return (
@@ -12,7 +12,7 @@ export default function DeckListPage(props) {
           <header>
             <h2>{deck.title}</h2>
             <p>
-              {deck.creator.name} posted on{' '}
+              {deck.creator.name} posted on{" "}
               {new Date(deck.createdAt).toLocaleDateString()}
             </p>
           </header>
