@@ -4,7 +4,6 @@ import { getUser } from "../../services/authService";
 import "./App.css";
 import NavBar from "../../components/NavBar/NavBar";
 import HomePage from "../HomePage/HomePage";
-import DeckListPage from "../DeckListPage/DeckListPage";
 import SignUpPage from "../SignUpPage/SignUpPage";
 import LogInPage from "../LogInPage/LogInPage";
 import DeckListPage from "../DeckListPage/DeckListPage";
