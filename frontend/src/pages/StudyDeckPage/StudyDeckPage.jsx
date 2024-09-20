@@ -61,7 +61,6 @@ export default function StudyDeckPage() {
       <h1>Studying: {deck.title}</h1>
       {cards.length > 0 ? (
         <div className="card-container">
-<<<<<<< HEAD
           <div className={`card ${showAnswer ? "flipped" : ""}`}>
             <div className="card-front">
               <p>
@@ -80,16 +79,6 @@ export default function StudyDeckPage() {
                   <strong>Notes:</strong> {currentCard.notes}
                 </p>
               )}
-=======
-          <div className={`card ${showAnswer ? 'flipped' : ''}`}>
-            <div className="card-front">
-              <p><strong>Chinese:</strong> {currentCard.chinese}</p>
-            </div>
-            <div className="card-back">
-              <p><strong>Pinyin:</strong> {currentCard.pinyin}</p>
-              <p><strong>English:</strong> {currentCard.english}</p>
-              <p><strong>Notes:</strong> {currentCard.notes}</p>
->>>>>>> d4f646bf2e5f5ffa24582a5ad6d2dbc37a065b3a
             </div>
           </div>
           <button onClick={handlePreviousCard}>Previous Card</button>
