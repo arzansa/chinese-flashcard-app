@@ -17,12 +17,16 @@
 
 <h2>Adding new cards</h2>
 
-![Picture of a car's details page](https://i.imgur.com/pUsrPcE.png)
+![Picture of adding a card](https://i.imgur.com/pUsrPcE.png)
 
 <p>The user can add the English and Chinese as well as the Pinyin for each card. The app features a keyboard with special characters to aid with typing the pinyin.</p>
 
 
+<h2>Study mode</h2>
 
+![Picture of study mode](https://i.imgur.com/2MHfgUj.png)
+
+<p>The user can study decks at their own pace.</p>
 
 
 # Technologies Used

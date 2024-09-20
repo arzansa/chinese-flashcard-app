@@ -11,13 +11,13 @@ export default function NavBar({ user, setUser }) {
   return (
     <nav className="NavBar">
       <Link to="/">Home</Link>
-      &nbsp; | &nbsp;
+      &nbsp; ~~~~~~~~~ &nbsp;
       {user ? (
         <>
           <Link to="/decks">My Decks</Link>
-          &nbsp; | &nbsp;
+          &nbsp; ~~~~~~~~~ &nbsp;
           <Link to="/community-decks">Community Decks</Link>
-          &nbsp; | &nbsp;
+          &nbsp; ~~~~~~~~~ &nbsp;
           <Link to="" onClick={handleLogOut}>
             Log Out
           </Link>
@@ -25,7 +25,7 @@ export default function NavBar({ user, setUser }) {
       ) : (
         <>
           <Link to="/login">Log In</Link>
-          &nbsp; | &nbsp;
+          &nbsp; ~~~~~~~~~ &nbsp;
           <Link to="/signup">Sign Up</Link>
         </>
       )}
