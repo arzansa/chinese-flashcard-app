@@ -16,8 +16,7 @@ export default function SignUpPage({ setUser }) {
       const user = await authService.signUp(formData);
       setUser(user);
     } catch (err) {
-      // An error occurred
-      console.log(err);
+            console.log(err);
       setErrorMsg("Sign Up Failed - Try Again");
     }
   }

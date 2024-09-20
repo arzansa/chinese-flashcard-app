@@ -1,0 +1,14 @@
+.btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 1vmin;
+}
+
+.added-by {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 1vmin;
+    margin-top: 2vmin; 
+}

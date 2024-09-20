@@ -14,8 +14,7 @@ export default function LogInPage({ setUser }) {
       const user = await authService.logIn(formData);
       setUser(user);
     } catch (err) {
-      // An error occurred
-      setErrorMsg("Log In Failed - Try Again");
+            setErrorMsg("Log In Failed - Try Again");
     }
   }
 

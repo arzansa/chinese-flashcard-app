@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function NewDeckPage() {
   const [title, setTitle] = useState("");
-  const [text, setText] = useState(""); // Add state for description
-  const [difficulty, setDifficulty] = useState("");
+  const [text, setText] = useState("");   const [difficulty, setDifficulty] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const navigate = useNavigate();
 
@@ -13,14 +12,12 @@ export default function NewDeckPage() {
 
     const deckData = {
       title,
-      text, // Include description in the deck data
-      difficulty,
+      text,       difficulty,
       isPublic,
     };
 
     try {
-      const token = localStorage.getItem("token"); // Ensure the user is authenticated
-      const response = await fetch("/api/decks", {
+      const token = localStorage.getItem("token");       const response = await fetch("/api/decks", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,8 +27,7 @@ export default function NewDeckPage() {
       });
       if (response.ok) {
         const newDeck = await response.json();
-        navigate(`/decks/${newDeck._id}`); // Redirect using navigate
-      } else {
+        navigate(`/decks/${newDeck._id}`);       } else {
         console.error("Failed to create deck");
       }
     } catch (err) {

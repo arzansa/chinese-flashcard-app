@@ -75,8 +75,7 @@ export default function DeckDetailPage({ decks = [], user }) {
         },
       });
       if (response.ok) {
-        // Remove the card from the deck in the state
-        const updatedDecks = decks.map((d) => {
+                const updatedDecks = decks.map((d) => {
           if (d._id === deckId) {
             return {
               ...d,

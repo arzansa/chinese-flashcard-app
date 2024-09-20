@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import "./NewCardPage.css"; 
 export default function NewCardPage() {
-  const { id } = useParams(); // Deck ID from URL
-  const [english, setEnglish] = useState("");
+  const { id } = useParams();   const [english, setEnglish] = useState("");
   const [chinese, setChinese] = useState("");
   const [pinyin, setPinyin] = useState("");
   const [notes, setNotes] = useState("");
@@ -38,6 +37,19 @@ export default function NewCardPage() {
       console.error("Error:", err);
     }
   };
+
+  const handleCharacterClick = (char) => {
+    setPinyin(pinyin + char);
+  };
+
+  const characters = [
+    "ā", "á", "ǎ", "à",
+    "ē", "é", "ě", "è",
+    "ī", "í", "ǐ", "ì",
+    "ō", "ó", "ǒ", "ò",
+    "ū", "ú", "ǔ", "ù",
+    "ǖ", "ǘ", "ǚ", "ǜ"
+  ];
 
   return (
     <main>
@@ -75,6 +87,17 @@ export default function NewCardPage() {
             required
           />
         </label>
+        <div className="character-buttons">
+          {characters.map((char) => (
+            <button
+              type="button"
+              key={char}
+              onClick={() => handleCharacterClick(char)}
+            >
+              {char}
+            </button>
+          ))}
+        </div>
         <br />
         <label>
           Notes:

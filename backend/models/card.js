@@ -27,7 +27,7 @@ const cardSchema = new mongoose.Schema(
     },
     notes: {
       type: String,
-      // Set required to false if notes are optional
+      
       required: false,
     },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

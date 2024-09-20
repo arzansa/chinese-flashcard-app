@@ -14,8 +14,7 @@ import DeckDetailPage from "../DeckDetailPage/DeckDetailPage";
 import StudyDeckPage from "../StudyDeckPage/StudyDeckPage";
 import EditCardPage from "../EditCardPage/EditCardPage";
 import CommunityDecksPage from "../CommunityDecksPage/CommunityDecksPage";
-import CommunityDeckDetailPage from "../CommunityDeckDetailPage/CommunityDeckDetailPage"; // Import CommunityDeckDetailPage
-
+import CommunityDeckDetailPage from "../CommunityDeckDetailPage/CommunityDeckDetailPage"; 
 function App() {
   const [user, setUser] = useState(getUser());
   const [decks, setDecks] = useState([]);
@@ -49,8 +48,7 @@ function App() {
   async function addDeckToUser(deck) {
     try {
       const token = localStorage.getItem("token");
-      console.log("Cloning deck with ID:", deck._id); // Log the deck ID
-      const response = await fetch(`/api/decks/clone/${deck._id}`, {
+      console.log("Cloning deck with ID:", deck._id);       const response = await fetch(`/api/decks/clone/${deck._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,8 +58,7 @@ function App() {
       if (response.ok) {
         const newDeck = await response.json();
         setDecks([...decks, newDeck]);
-        console.log("Deck cloned successfully:", newDeck); // Log the cloned deck
-      } else {
+        console.log("Deck cloned successfully:", newDeck);       } else {
         console.error(
           "Failed to clone deck",
           response.status,
@@ -79,7 +76,7 @@ function App() {
       <section id="main-section">
         {user ? (
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage user={user} />} />
             <Route
               path="/decks"
               element={<DeckListPage decks={decks} user={user} />}
@@ -121,7 +118,7 @@ function App() {
           </Routes>
         ) : (
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage user={user} />} />
             <Route path="/login" element={<LogInPage setUser={setUser} />} />
             <Route path="/signup" element={<SignUpPage setUser={setUser} />} />
             <Route path="*" element={<Navigate to="/" />} />

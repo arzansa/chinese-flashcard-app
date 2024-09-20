@@ -1,10 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap");
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Noto Sans JP", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color: #1a1a1a;
-  background-color: whitesmoke;
+  --color-primary: #c2d3cd;
+  --color-secondary: #afbfc0;
+  --color-tertiary: #9fa4a9;
+  --color-quaternary: #847e89;
+  --color-quinary: #56494c;
+
+  color: var(--color-quinary);
+  background-color: var(--color-tertiary);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,27 +27,57 @@
 body {
   margin: 0;
   min-height: 100vh;
+  background-color: var(--color-tertiary);
 }
 
-h1, h2 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+article,
+nav a,
+button,
+form {
+  font-family: "Noto Sans JP", system-ui, Avenir, Helvetica, Arial, sans-serif; 
+  color: var(--color-quinary);
+}
+
+article {
+  padding: 2vmin;
+  border: 0.5vmin solid var(--color-primary);
+  border-radius: 1vmin;
+  background-color: var(--color-quaternary); 
+  margin-top: 2vmin;
+}
+
+h1,
+h2 {
   text-align: center;
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
 }
 
-button {
-  border: 0.5vmin solid #1a1a1a;
+button,
+nav a {
+  border: 0.5vmin solid var(--color-primary);
   border-radius: 0.5vmin;
-  padding: 0.8vmin;
+  padding: 0.2vmin;
   font-size: 2vmin;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  color: whitesmoke;
+  background-color: var(--color-primary);
+  color: var(--color-quinary); 
   cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; 
 }
-button:hover {
-  background-color: white;
-  color: #1a1a1a;
-  border-color: #1a1a1a;
+button:hover,
+nav a:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-quinary); 
+  border-color: var(--color-secondary);
 }
 button:disabled {
   background-color: grey;
@@ -50,26 +88,23 @@ a {
   padding: 0.5vmin;
   font-size: 2vmin;
   text-decoration: none;
-  color: #1a1a1a;
-}
-
-a:hover {
-  background-color: #1a1a1a;
-  color: whitesmoke;
+  color: var(--color-primary);
 }
 
 form {
   display: grid;
   gap: 1.2vmin;
   padding: 4vmin;
-  border: 0.5vmin solid #1a1a1a;
+  border: 0.5vmin solid var(--color-primary);
   border-radius: 1vmin;
+  background-color: var(--color-quaternary); 
+  margin-top: 2vmin;
 }
 
 input {
   padding: 0.7vmin;
   font-size: 2vmin;
-  border: 0.3vmin solid #1a1a1a;
+  border: 0.3vmin solid var(--color-primary);
   border-radius: 0.5vmin;
 }
 
@@ -87,5 +122,5 @@ h2 {
 }
 
 .error-message {
-  color: rgb(166, 29, 29);
+  color: var(--color-tertiary);
 }

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "./CommunityDecksPage.css";
 
 export default function CommunityDecksPage({ decks, user, addDeckToUser }) {
   const publicDecks = decks.filter((deck) => deck.isPublic);
@@ -11,23 +12,25 @@ export default function CommunityDecksPage({ decks, user, addDeckToUser }) {
           <article key={deck._id}>
             <header>
               <h2>{deck.title}</h2>
-              <p>
-                {deck.creator?.name || "Unknown"} posted on{" "}
-                {new Date(deck.createdAt).toLocaleDateString()}
-              </p>
+              <div className="added-by">
+                <p>
+                  {deck.creator?.name || "Unknown"} posted on{" "}
+                  {new Date(deck.createdAt).toLocaleDateString()}
+                </p>
+              </div>
             </header>
             <p>{deck.text}</p>
-            <Link to={`/community-decks/${deck._id}`}>
-              <button>View Deck</button>
-            </Link>
-            <button
-              onClick={() => {
-                console.log("Adding deck to user:", deck); // Log the deck being added
-                addDeckToUser(deck);
-              }}
-            >
-              Add to My Decks
-            </button>
+
+              <Link to={`/community-decks/${deck._id}`}>
+                <button>View Deck</button>
+              </Link>
+              <button
+                onClick={() => {
+                  addDeckToUser(deck);
+                }}
+              >
+                Add to My Decks
+              </button>
           </article>
         ))
       ) : (

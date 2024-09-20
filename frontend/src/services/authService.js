@@ -24,12 +24,10 @@ export function getUser() {
 }
 
 export function getToken() {
-  // getItem returns null if there's no key
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
   if (!token) return null;
   const payload = JSON.parse(atob(token.split(".")[1]));
-  // A JWT's exp is expressed in seconds, not milliseconds, so convert
-  if (payload.exp * 1000 < Date.now()) {
+    if (payload.exp * 1000 < Date.now()) {
     localStorage.removeItem("token");
     return null;
   }

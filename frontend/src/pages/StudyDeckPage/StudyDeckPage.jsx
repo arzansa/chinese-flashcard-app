@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 export default function StudyDeckPage() {
-  const { id } = useParams(); // Deck ID from URL
-  const [deck, setDeck] = useState(null);
+  const { id } = useParams();   const [deck, setDeck] = useState(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
 
@@ -47,9 +46,6 @@ export default function StudyDeckPage() {
       <h1>Studying: {deck.title}</h1>
       {cards.length > 0 ? (
         <div>
-          <p>
-            Card {currentCardIndex + 1} of {cards.length}
-          </p>
           <div>
             <p><strong>Chinese:</strong> {currentCard.chinese}</p>
             {showAnswer && (
@@ -64,6 +60,9 @@ export default function StudyDeckPage() {
             {showAnswer ? 'Hide Answer' : 'Show Answer'}
           </button>
           <button onClick={handleNextCard}>Next Card</button>
+          <p class="center-p">
+            Card {currentCardIndex + 1} of {cards.length}
+          </p>
         </div>
       ) : (
         <p>No cards in this deck.</p>

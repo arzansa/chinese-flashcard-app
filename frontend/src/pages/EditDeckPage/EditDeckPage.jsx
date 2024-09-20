@@ -1,37 +1,29 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import "./EditDeckPage.css"; 
 export default function EditDeckPage() {
-  const { id } = useParams(); // Deck ID from URL
-  const [deck, setDeck] = useState(null);
+  const { id } = useParams();   const [deck, setDeck] = useState(null);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [difficulty, setDifficulty] = useState("");
-  const [isPublic, setIsPublic] = useState(false); // Add state for public
-  const navigate = useNavigate();
+  const [isPublic, setIsPublic] = useState(false);   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchDeck() {
       try {
         const token = localStorage.getItem("token");
-        console.log("Fetching deck with ID:", id); // Log the deck ID
-        const response = await fetch(`/api/decks/${id}`, {
+        console.log("Fetching deck with ID:", id);         const response = await fetch(`/api/decks/${id}`, {
           headers: {
             Authorization: "Bearer " + token,
-            "Cache-Control": "no-cache", // Disable caching
-            Pragma: "no-cache", // Disable caching
-            Expires: "0", // Disable caching
-          },
+            "Cache-Control": "no-cache",             Pragma: "no-cache",             Expires: "0",           },
         });
         if (response.ok) {
           const deckData = await response.json();
-          console.log("Deck data fetched:", deckData); // Log the fetched deck data
-          setDeck(deckData);
+          console.log("Deck data fetched:", deckData);           setDeck(deckData);
           setTitle(deckData.title);
           setText(deckData.text);
           setDifficulty(deckData.difficulty);
-          setIsPublic(deckData.isPublic); // Set public state
-        } else {
+          setIsPublic(deckData.isPublic);         } else {
           console.error(
             "Failed to fetch deck",
             response.status,
@@ -52,8 +44,7 @@ export default function EditDeckPage() {
       title,
       text,
       difficulty,
-      isPublic, // Include public in the updated deck data
-    };
+      isPublic,     };
 
     try {
       const token = localStorage.getItem("token");
@@ -89,8 +80,7 @@ export default function EditDeckPage() {
         },
       });
       if (response.ok) {
-        navigate("/decks"); // Redirect to the decks list page after deletion
-      } else {
+        navigate("/decks");       } else {
         console.error(
           "Failed to delete deck",
           response.status,
@@ -107,56 +97,58 @@ export default function EditDeckPage() {
   }
 
   return (
-    <main>
+    <main className="container mt-5">
       <h1>Edit Deck</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Title:
-          <br />
+        <div className="form-group">
+          <label htmlFor="title">Title:</label>
           <input
             type="text"
+            className="form-control"
+            id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-        </label>
-        <br />
-        <label>
-          Description:
-          <br />
+        </div>
+        <div className="form-group">
+          <label htmlFor="description">Description:</label>
           <textarea
+            className="form-control"
+            id="description"
             value={text}
             onChange={(e) => setText(e.target.value)}
+            required
           ></textarea>
-        </label>
-        <br />
-        <label>
-          Difficulty:
-          <br />
+        </div>
+        <div className="form-group">
+          <label htmlFor="difficulty">Difficulty:</label>
           <input
             type="text"
+            className="form-control"
+            id="difficulty"
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
             required
           />
-        </label>
-        <br />
-        <label>
-          Public:
-          <br />
+        </div>
+        <div className="form-group form-check">
           <input
             type="checkbox"
+            className="form-check-input"
+            id="isPublic"
             checked={isPublic}
             onChange={(e) => setIsPublic(e.target.checked)}
           />
-        </label>
-        <br />
-        <button type="submit">Save Changes</button>
+          <label className="form-check-label" htmlFor="isPublic">
+            Public
+          </label>
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Save Changes
+        </button>
       </form>
-      <button
-        onClick={handleDelete}
-        style={{ marginTop: "20px", color: "red" }}
-      >
+      <button onClick={handleDelete} className="btn btn-danger mt-3">
         Delete Deck
       </button>
     </main>
