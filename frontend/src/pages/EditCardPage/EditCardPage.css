@@ -1,0 +1,21 @@
+.character-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5vmin;
+    margin-top: 1vmin;
+  }
+  
+  .character-buttons button {
+    padding: 0.25vmin; /* Reduced padding */
+    font-size: 1vmin; /* Reduced font size */
+    background-color: var(--color-primary);
+    border: 0.3vmin solid var(--color-secondary);
+    border-radius: 0.5vmin;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .character-buttons button:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-quinary);
+  }

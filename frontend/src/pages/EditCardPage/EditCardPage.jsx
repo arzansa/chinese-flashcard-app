@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "./EditCardPage.css"; // Import the CSS file
 
 export default function EditCardPage() {
-  const { id, cardId } = useParams();   console.log("Deck ID:", id);   console.log("Card ID:", cardId); 
+  const { id, cardId } = useParams();
   const [card, setCard] = useState(null);
   const [english, setEnglish] = useState("");
   const [chinese, setChinese] = useState("");
@@ -14,23 +15,21 @@ export default function EditCardPage() {
     async function fetchCard() {
       try {
         const token = localStorage.getItem("token");
-        console.log("Fetching card with ID:", cardId);         const response = await fetch(`/api/cards/${cardId}`, {
+        const response = await fetch(`/api/cards/${cardId}`, {
           headers: {
             Authorization: "Bearer " + token,
-            "Cache-Control": "no-cache",             Pragma: "no-cache",             Expires: "0",           },
+            "Cache-Control": "no-cache",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
         });
-        console.log("Response status:", response.status);         const responseText = await response.text();
-        console.log("Response text:", responseText);         if (response.ok) {
-          try {
-            const cardData = JSON.parse(responseText);
-            console.log("Card data fetched:", cardData);             setCard(cardData);
-            setEnglish(cardData.english);
-            setChinese(cardData.chinese);
-            setPinyin(cardData.pinyin);
-            setNotes(cardData.notes);
-          } catch (parseError) {
-            console.error("Error parsing JSON:", parseError);
-          }
+        if (response.ok) {
+          const cardData = await response.json();
+          setCard(cardData);
+          setEnglish(cardData.english);
+          setChinese(cardData.chinese);
+          setPinyin(cardData.pinyin);
+          setNotes(cardData.notes);
         } else {
           console.error(
             "Failed to fetch card",
@@ -79,6 +78,19 @@ export default function EditCardPage() {
     }
   };
 
+  const handleCharacterClick = (char) => {
+    setPinyin(pinyin + char);
+  };
+
+  const characters = [
+    "ā", "á", "ǎ", "à",
+    "ē", "é", "ě", "è",
+    "ī", "í", "ǐ", "ì",
+    "ō", "ó", "ǒ", "ò",
+    "ū", "ú", "ǔ", "ù",
+    "ǖ", "ǘ", "ǚ", "ǜ"
+  ];
+
   if (!card) {
     return <p>Loading card...</p>;
   }
@@ -119,6 +131,17 @@ export default function EditCardPage() {
             required
           />
         </label>
+        <div className="character-buttons">
+          {characters.map((char) => (
+            <button
+              type="button"
+              key={char}
+              onClick={() => handleCharacterClick(char)}
+            >
+              {char}
+            </button>
+          ))}
+        </div>
         <br />
         <label>
           Notes:
