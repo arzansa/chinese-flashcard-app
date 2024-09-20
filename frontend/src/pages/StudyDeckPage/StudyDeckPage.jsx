@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./StudyDeckPage.css"; // Import the CSS file
+=======
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import './StudyDeckPage.css'; // Import the CSS file
+>>>>>>> d4f646bf2e5f5ffa24582a5ad6d2dbc37a065b3a
 
 export default function StudyDeckPage() {
   const { id } = useParams();
@@ -55,6 +61,7 @@ export default function StudyDeckPage() {
       <h1>Studying: {deck.title}</h1>
       {cards.length > 0 ? (
         <div className="card-container">
+<<<<<<< HEAD
           <div className={`card ${showAnswer ? "flipped" : ""}`}>
             <div className="card-front">
               <p>
@@ -73,6 +80,16 @@ export default function StudyDeckPage() {
                   <strong>Notes:</strong> {currentCard.notes}
                 </p>
               )}
+=======
+          <div className={`card ${showAnswer ? 'flipped' : ''}`}>
+            <div className="card-front">
+              <p><strong>Chinese:</strong> {currentCard.chinese}</p>
+            </div>
+            <div className="card-back">
+              <p><strong>Pinyin:</strong> {currentCard.pinyin}</p>
+              <p><strong>English:</strong> {currentCard.english}</p>
+              <p><strong>Notes:</strong> {currentCard.notes}</p>
+>>>>>>> d4f646bf2e5f5ffa24582a5ad6d2dbc37a065b3a
             </div>
           </div>
           <button onClick={handlePreviousCard}>Previous Card</button>
@@ -83,9 +100,13 @@ export default function StudyDeckPage() {
           <div className="progress-container">
             <div
               className="progress-bar"
+<<<<<<< HEAD
               style={{
                 width: `${((currentCardIndex + 1) / cards.length) * 100}%`,
               }}
+=======
+              style={{ width: `${((currentCardIndex + 1) / cards.length) * 100}%` }}
+>>>>>>> d4f646bf2e5f5ffa24582a5ad6d2dbc37a065b3a
             ></div>
           </div>
           <p className="center-p">
