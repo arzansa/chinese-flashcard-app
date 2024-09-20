@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "./StudyDeckPage.css"; // Import the CSS file
-=======
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import './StudyDeckPage.css'; // Import the CSS file
->>>>>>> d4f646bf2e5f5ffa24582a5ad6d2dbc37a065b3a
+import "./StudyDeckPage.css";
 
 export default function StudyDeckPage() {
   const { id } = useParams();
@@ -89,13 +83,9 @@ export default function StudyDeckPage() {
           <div className="progress-container">
             <div
               className="progress-bar"
-<<<<<<< HEAD
               style={{
                 width: `${((currentCardIndex + 1) / cards.length) * 100}%`,
               }}
-=======
-              style={{ width: `${((currentCardIndex + 1) / cards.length) * 100}%` }}
->>>>>>> d4f646bf2e5f5ffa24582a5ad6d2dbc37a065b3a
             ></div>
           </div>
           <p className="center-p">
