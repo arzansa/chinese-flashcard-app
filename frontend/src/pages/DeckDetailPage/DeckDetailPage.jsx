@@ -1,12 +1,42 @@
+// DeckDetailPage.jsx
 import { useParams, Link } from "react-router-dom";
 
-export default function DeckDetailPage({ decks = [], user }) {
+export default function DeckDetailPage({ decks = [], user, setDecks }) {
   const { id } = useParams();
   const deck = decks.find((deck) => deck._id === id);
 
   if (!deck) return <p>Deck not found.</p>;
 
   const isCreator = user && deck.creator._id === user._id;
+
+  async function handleRemoveCard(deckId, cardId) {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/decks/${deckId}/cards/${cardId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (response.ok) {
+        const updatedDecks = decks.map((d) => {
+          if (d._id === deckId) {
+            return {
+              ...d,
+              cards: d.cards.filter((c) => c._id !== cardId),
+            };
+          }
+          return d;
+        });
+        setDecks(updatedDecks);
+      } else {
+        console.error("Failed to remove card");
+      }
+    } catch (err) {
+      console.error("Error removing card:", err);
+    }
+  }
 
   return (
     <main>
@@ -63,33 +93,4 @@ export default function DeckDetailPage({ decks = [], user }) {
       </section>
     </main>
   );
-
-  async function handleRemoveCard(deckId, cardId) {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`/api/decks/${deckId}/cards/${cardId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-      if (response.ok) {
-                const updatedDecks = decks.map((d) => {
-          if (d._id === deckId) {
-            return {
-              ...d,
-              cards: d.cards.filter((c) => c._id !== cardId),
-            };
-          }
-          return d;
-        });
-        setDecks(updatedDecks);
-      } else {
-        console.error("Failed to remove card");
-      }
-    } catch (err) {
-      console.error("Error removing card:", err);
-    }
-  }
 }

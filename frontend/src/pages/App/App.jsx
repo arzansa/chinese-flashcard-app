@@ -1,3 +1,4 @@
+// App.jsx
 import { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { getUser } from "../../services/authService";
@@ -14,7 +15,8 @@ import DeckDetailPage from "../DeckDetailPage/DeckDetailPage";
 import StudyDeckPage from "../StudyDeckPage/StudyDeckPage";
 import EditCardPage from "../EditCardPage/EditCardPage";
 import CommunityDecksPage from "../CommunityDecksPage/CommunityDecksPage";
-import CommunityDeckDetailPage from "../CommunityDeckDetailPage/CommunityDeckDetailPage"; 
+import CommunityDeckDetailPage from "../CommunityDeckDetailPage/CommunityDeckDetailPage";
+
 function App() {
   const [user, setUser] = useState(getUser());
   const [decks, setDecks] = useState([]);
@@ -48,7 +50,8 @@ function App() {
   async function addDeckToUser(deck) {
     try {
       const token = localStorage.getItem("token");
-      console.log("Cloning deck with ID:", deck._id);       const response = await fetch(`/api/decks/clone/${deck._id}`, {
+      console.log("Cloning deck with ID:", deck._id);
+      const response = await fetch(`/api/decks/clone/${deck._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +61,8 @@ function App() {
       if (response.ok) {
         const newDeck = await response.json();
         setDecks([...decks, newDeck]);
-        console.log("Deck cloned successfully:", newDeck);       } else {
+        console.log("Deck cloned successfully:", newDeck);
+      } else {
         console.error(
           "Failed to clone deck",
           response.status,
@@ -81,18 +85,29 @@ function App() {
               path="/decks"
               element={<DeckListPage decks={decks} user={user} />}
             />
-            <Route path="/decks/new" element={<NewDeckPage />} />
+            <Route
+              path="/decks/new"
+              element={<NewDeckPage setDecks={setDecks} decks={decks} />}
+            />
             <Route
               path="/decks/:id"
               element={
                 <DeckDetailPage decks={decks} user={user} setDecks={setDecks} />
               }
             />
-            <Route path="/decks/:id/edit" element={<EditDeckPage />} />
-            <Route path="/decks/:id/cards/new" element={<NewCardPage />} />
+            <Route
+              path="/decks/:id/edit"
+              element={
+                <EditDeckPage decks={decks} setDecks={setDecks} user={user} />
+              }
+            />
+            <Route
+              path="/decks/:id/cards/new"
+              element={<NewCardPage decks={decks} setDecks={setDecks} />}
+            />
             <Route
               path="/decks/:id/cards/:cardId/edit"
-              element={<EditCardPage />}
+              element={<EditCardPage decks={decks} setDecks={setDecks} />}
             />
             <Route path="/decks/:id/study" element={<StudyDeckPage />} />
             <Route

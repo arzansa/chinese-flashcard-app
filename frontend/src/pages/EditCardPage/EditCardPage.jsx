@@ -1,8 +1,9 @@
+// EditCardPage.jsx
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./EditCardPage.css"; // Import the CSS file
+import "./EditCardPage.css";
 
-export default function EditCardPage() {
+export default function EditCardPage({ decks, setDecks }) {
   const { id, cardId } = useParams();
   const [card, setCard] = useState(null);
   const [english, setEnglish] = useState("");
@@ -65,6 +66,22 @@ export default function EditCardPage() {
         body: JSON.stringify(updatedCard),
       });
       if (response.ok) {
+        const updatedCardData = await response.json();
+
+        // Update the decks state
+        const updatedDecks = decks.map((d) => {
+          if (d._id === id) {
+            return {
+              ...d,
+              cards: d.cards.map((c) =>
+                c._id === cardId ? updatedCardData : c
+              ),
+            };
+          }
+          return d;
+        });
+        setDecks(updatedDecks);
+
         navigate(`/decks/${id}`);
       } else {
         console.error(

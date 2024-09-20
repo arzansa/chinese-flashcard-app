@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
         path: "cards",
         model: "Card",
       })
-      .populate("creator", "name");
+      .populate("creator");
     res.status(200).json(decks);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -137,6 +137,8 @@ router.post("/", async (req, res) => {
       creator: req.user._id,
     };
     const newDeck = await Deck.create(deckData);
+    await newDeck.populate("creator");
+    console.log("New deck created:", newDeck);
     res.status(201).json(newDeck);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -146,11 +148,11 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const deck = await Deck.findById(req.params.id);
+    const deck = await Deck.findById(req.params.id).populate("creator");
     if (!deck) return res.status(404).json({ message: "Deck not found" });
 
     
-    if (!deck.creator.equals(req.user._id)) {
+    if (!deck.creator._id.equals(req.user._id)) {
       return res.status(403).json({ message: "Unauthorized" });
     }
 

@@ -1,41 +1,56 @@
+// EditDeckPage.jsx
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./EditDeckPage.css"; 
-export default function EditDeckPage() {
-  const { id } = useParams();   const [deck, setDeck] = useState(null);
+import "./EditDeckPage.css";
+
+export default function EditDeckPage({ decks, setDecks, user }) {
+  const { id } = useParams();
+  // const [deck, setDeck] = useState(null);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [difficulty, setDifficulty] = useState("");
-  const [isPublic, setIsPublic] = useState(false);   const navigate = useNavigate();
+  const [isPublic, setIsPublic] = useState(false);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    async function fetchDeck() {
-      try {
-        const token = localStorage.getItem("token");
-        console.log("Fetching deck with ID:", id);         const response = await fetch(`/api/decks/${id}`, {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Cache-Control": "no-cache",             Pragma: "no-cache",             Expires: "0",           },
-        });
-        if (response.ok) {
-          const deckData = await response.json();
-          console.log("Deck data fetched:", deckData);           setDeck(deckData);
-          setTitle(deckData.title);
-          setText(deckData.text);
-          setDifficulty(deckData.difficulty);
-          setIsPublic(deckData.isPublic);         } else {
-          console.error(
-            "Failed to fetch deck",
-            response.status,
-            response.statusText
-          );
-        }
-      } catch (err) {
-        console.error("Error:", err);
-      }
-    }
-    fetchDeck();
-  }, [id]);
+const deck = decks.find((d) => d._id === id);
+if (!deck) {
+  return null;
+}
+
+  // useEffect(() => {
+  //   async function fetchDeck() {
+  //     try {
+  //       const token = localStorage.getItem("token");
+  //       console.log("Fetching deck with ID:", id);
+  //       const response = await fetch(`/api/decks/${id}`, {
+  //         headers: {
+  //           Authorization: "Bearer " + token,
+  //           "Cache-Control": "no-cache",
+  //           Pragma: "no-cache",
+  //           Expires: "0",
+  //         },
+  //       });
+  //       if (response.ok) {
+  //         const deckData = await response.json();
+  //         console.log("Deck data fetched:", deckData);
+  //         setDeck(deckData);
+  //         setTitle(deckData.title);
+  //         setText(deckData.text);
+  //         setDifficulty(deckData.difficulty);
+  //         setIsPublic(deckData.isPublic);
+  //       } else {
+  //         console.error(
+  //           "Failed to fetch deck",
+  //           response.status,
+  //           response.statusText
+  //         );
+  //       }
+  //     } catch (err) {
+  //       console.error("Error:", err);
+  //     }
+  //   }
+  //   fetchDeck();
+  // }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +59,8 @@ export default function EditDeckPage() {
       title,
       text,
       difficulty,
-      isPublic,     };
+      isPublic,
+    };
 
     try {
       const token = localStorage.getItem("token");
@@ -57,6 +73,12 @@ export default function EditDeckPage() {
         body: JSON.stringify(updatedDeck),
       });
       if (response.ok) {
+        const updatedDeckData = await response.json();
+        const updatedDecks = decks.map((d) =>
+          d._id === id ? updatedDeckData : d
+        );
+        setDecks(updatedDecks);
+
         navigate(`/decks/${id}`);
       } else {
         console.error(
@@ -80,7 +102,12 @@ export default function EditDeckPage() {
         },
       });
       if (response.ok) {
-        navigate("/decks");       } else {
+        // Update the decks state by removing the deleted deck
+        const updatedDecks = decks.filter((d) => d._id !== id);
+        setDecks(updatedDecks);
+
+        navigate("/decks");
+      } else {
         console.error(
           "Failed to delete deck",
           response.status,

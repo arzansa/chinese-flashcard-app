@@ -1,8 +1,11 @@
+// NewCardPage.jsx
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./NewCardPage.css"; 
-export default function NewCardPage() {
-  const { id } = useParams();   const [english, setEnglish] = useState("");
+import "./NewCardPage.css";
+
+export default function NewCardPage({ decks, setDecks }) {
+  const { id } = useParams();
+  const [english, setEnglish] = useState("");
   const [chinese, setChinese] = useState("");
   const [pinyin, setPinyin] = useState("");
   const [notes, setNotes] = useState("");
@@ -29,6 +32,20 @@ export default function NewCardPage() {
         body: JSON.stringify(cardData),
       });
       if (response.ok) {
+        const newCard = await response.json();
+
+        // Update the decks state
+        const updatedDecks = decks.map((d) => {
+          if (d._id === id) {
+            return {
+              ...d,
+              cards: [...d.cards, newCard],
+            };
+          }
+          return d;
+        });
+        setDecks(updatedDecks);
+
         navigate(`/decks/${id}`);
       } else {
         console.error("Failed to add card to deck");
