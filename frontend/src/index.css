@@ -11,7 +11,7 @@
   --color-quaternary: #847e89;
   --color-quinary: #56494c;
 
-  color: var(--color-quinary);
+  color: black;
   background-color: var(--color-tertiary);
 
   font-synthesis: none;
@@ -43,7 +43,7 @@ nav a,
 button,
 form {
   font-family: "Noto Sans JP", system-ui, Avenir, Helvetica, Arial, sans-serif; 
-  color: var(--color-quinary);
+  color: black;
 }
 
 article {
@@ -69,14 +69,15 @@ nav a {
   font-size: 2vmin;
   font-weight: 500;
   background-color: var(--color-primary);
-  color: var(--color-quinary); 
+  color: black; 
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s; 
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 0.4vmin 0.8vmin rgba(0, 0, 0, 0.2); 
 }
 button:hover,
 nav a:hover {
   background-color: var(--color-secondary);
-  color: var(--color-quinary); 
+  color: black; 
   border-color: var(--color-secondary);
 }
 button:disabled {

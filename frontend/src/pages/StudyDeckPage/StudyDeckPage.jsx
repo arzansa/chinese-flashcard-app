@@ -52,25 +52,25 @@ export default function StudyDeckPage() {
 
   return (
     <main className="study-deck-page">
-      <h1>Studying: {deck.title}</h1>
+      {/* <h4>Studying: {deck.title}</h4> */}
       {cards.length > 0 ? (
         <div className="card-container">
           <div className={`card ${showAnswer ? "flipped" : ""}`}>
             <div className="card-front">
               <p>
-                <strong>Chinese:</strong> {currentCard.chinese}
+                {currentCard.chinese}
               </p>
             </div>
             <div className="card-back">
               <p>
-                <strong>Pinyin:</strong> {currentCard.pinyin}
+                {currentCard.pinyin}
               </p>
               <p>
-                <strong>English:</strong> {currentCard.english}
+                {currentCard.english}
               </p>
               {currentCard.notes && (
                 <p>
-                  <strong>Notes:</strong> {currentCard.notes}
+                  {currentCard.notes}
                 </p>
               )}
             </div>
